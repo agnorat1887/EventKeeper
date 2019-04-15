@@ -31,6 +31,10 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import retrofit2.Call;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 public class Home extends Fragment implements RecyclerViewAdapter.OnItemClickListener {
     public static Home newInstance() {
         Home fragment = new Home();
@@ -73,12 +77,17 @@ public class Home extends Fragment implements RecyclerViewAdapter.OnItemClickLis
         SharedPreferences sharedPref = this.getActivity().getSharedPreferences("eventKeeper", Context.MODE_PRIVATE);
         System.out.println("userid from sharedpref: " + sharedPref.getString("userid", "default"));
 
-        String url = "https://eventkeeperofficial.herokuapp.com/api/groups/";
-        url+=sharedPref.getString("userid", "default");
+        String url = "https://eventkeeperofficial.herokuapp.com/api/";
 
-        RequestQueue queue = Volley.newRequestQueue(this.getActivity());
-        JsonArrayRequest getRequest = new JsonArrayRequest(Request.Method.GET, url, null,
-                new Response.Listener<JSONArray>() {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(url)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+                JsonPlaceHolderApi jsonPlaceHolderApi = retrofit.create(JsonPlaceHolderApi.class);
+
+                Call<Group> call = jsonPlaceHolderApi.showGroups(sharedPref.getString("userid", "default"));
+
                     @Override
                     public void onResponse(JSONArray response) {
                         try {
@@ -110,7 +119,6 @@ public class Home extends Fragment implements RecyclerViewAdapter.OnItemClickLis
                 }
 
                 );
-        queue.add(getRequest);
 
 
     }

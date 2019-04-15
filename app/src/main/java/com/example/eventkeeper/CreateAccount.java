@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
@@ -23,6 +22,12 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 public class CreateAccount extends AppCompatActivity {
 
     @Override
@@ -33,84 +38,59 @@ public class CreateAccount extends AppCompatActivity {
 
     public void Create (View view) throws JSONException {
         if(Checkpass()) {
-            TextView wrong = findViewById(R.id.match);
-            wrong.setText("Account is created");
 
-            final String url = "https://eventkeeperofficial.herokuapp.com/api/signup";
+            String url = "https://eventkeeperofficial.herokuapp.com/api/";
 
-            RequestQueue queue = Volley.newRequestQueue(this);
-            JsonObjectRequest postRequest = new JsonObjectRequest(Request.Method.POST, url, null,
-                    new Response.Listener<JSONObject>()
-                    {
-                        @Override
-                        public void onResponse(JSONObject response) {
-                            // response
-                            Log.d("Response", response.toString());
-                            valid();
-                        }
-                    },
-                    new Response.ErrorListener()
-                    {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            // error
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl(url)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
 
-                        }
-                    }
-            ) {
+            JsonPlaceHolderApi jsonPlaceHolderApi = retrofit.create(JsonPlaceHolderApi.class);
+
+            String username = ((EditText)findViewById(R.id.Username)).getText().toString();
+            String email = ((EditText)findViewById(R.id.Email)).getText().toString();
+            String password = ((EditText)findViewById(R.id.Password)).getText().toString();
+            String firstname = ((EditText)findViewById(R.id.FirstName)).getText().toString();
+            String lastname = ((EditText)findViewById(R.id.LastName)).getText().toString();
+            String street = ((EditText)findViewById(R.id.Street)).getText().toString();
+            String city = ((EditText)findViewById(R.id.City)).getText().toString();
+            String state = ((EditText)findViewById(R.id.State)).getText().toString();
+            int zip_code = Integer.parseInt(((EditText)findViewById(R.id.Zipcode)).getText().toString());
+
+            Fullname fullname= new Fullname(firstname, lastname);
+            Address address = new Address(street, city, state, zip_code);
+
+            User user = new User(username, email, password, fullname, address);
+            Call<User> call = jsonPlaceHolderApi.createUser(user);
+            call.enqueue(new Callback<User>() {
                 @Override
-                protected Map<String, String> getParams()
-                {
-                    Map<String, String>  params = new HashMap<String, String>();
+                public void onResponse(Call<User> call, Response<User> response) {
+                    if(!response.isSuccessful()){
+                        TextView match = findViewById(R.id.match);
+                        match.setText("An error occured, try again");
+                        return;
+                    }
+                    User userResponse = response.body();
 
-                    EditText username = findViewById(R.id.Username);
-                    EditText email = findViewById(R.id.Email);
-                    EditText password = findViewById(R.id.Password);
-                    params.put("username", username.getText().toString());
-                    params.put("email", email.getText().toString());
-                    params.put("password", password.getText().toString());
-                    JSONObject name = new JSONObject();
-                    EditText firstname = findViewById(R.id.FirstName);
-                    EditText lastname = findViewById(R.id.LastName);
-                    String First = firstname.getText().toString();
-                    String Last = lastname.getText().toString();
-                    try {
-                        name.put("first", First);
-                        name.put("last", Last);
-                    }
-                     catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    params.put("name", name.toString());
-
-                    JSONObject address = new JSONObject();
-                    EditText street = findViewById(R.id.Street);
-                    EditText city = findViewById(R.id.City);
-                    EditText state = findViewById(R.id.State);
-                    EditText zipcode = findViewById(R.id.Zipcode);
-                    try {
-                        address.put("street", street.getText().toString());
-                        address.put("city", city.getText().toString());
-                        address.put("state", state.getText().toString());
-                        address.put("zip_code", zipcode.getText().toString());
-                    }
-                    catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    params.put("address", address.toString());
-
-                    System.out.println(address.toString());
-                    return params;
+                    valid();
                 }
-            };
-            queue.add(postRequest);
-        }
+
+                @Override
+                public void onFailure(Call<User> call, Throwable t) {
+
+                    System.out.println("Something failed");
+
+                }
+            });
+    }
 
     }
 
     public void valid() {
-        //Intent intent = new Intent(this, MainActivity.class);
-        //startActivity(intent);
+        System.out.println("Account was created");
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 
     public boolean Checkpass () {

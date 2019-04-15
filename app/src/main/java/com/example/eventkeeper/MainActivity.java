@@ -18,7 +18,6 @@ import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
@@ -31,6 +30,12 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -60,57 +65,45 @@ public class MainActivity extends AppCompatActivity {
         EditText loginPassword = findViewById(R.id.login_password);
         final String password = loginPassword.getText().toString();
 
-        final String url = "https://eventkeeperofficial.herokuapp.com/api/signin";
+        final String url = "https://eventkeeperofficial.herokuapp.com/api/";
 
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(url)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
 
-        RequestQueue queue = Volley.newRequestQueue(this);
-        StringRequest postRequest = new StringRequest(Request.Method.POST, url,
-                new Response.Listener<String>()
-                {
-                    @Override
-                    public void onResponse(String response) {
-                        // response
-                        JSONObject json = null;
-                        try {
-                            json = new JSONObject(response);
-                            Log.d("Response", json.getString("userid"));
-                            SharedPreferences sharedPref = getSharedPreferences("eventKeeper", Context.MODE_PRIVATE);
-                            SharedPreferences.Editor editor = sharedPref.edit();
+        JsonPlaceHolderApi jsonPlaceHolderApi = retrofit.create(JsonPlaceHolderApi.class);
 
-                            editor.putString("userid", json.getString("userid"));
-                            editor.commit();
+        User loginuser = new User("login", email, password, null, null);
 
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-
-                        valid();
-                    }
-                },
-                new Response.ErrorListener()
-                {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        // error
-                        TextView wrong = findViewById(R.id.wrong);
-                        wrong.setText("Wrong email or password");
-
-                    }
-                }
-        ) {
+        Call<User> call = jsonPlaceHolderApi.loginUser(loginuser);
+        call.enqueue(new Callback<User>() {
             @Override
-            protected Map<String, String> getParams()
-            {
-                Map<String, String>  params = new HashMap<String, String>();
-                params.put("email", email);
-                params.put("password", password);
+            public void onResponse(Call<User> call, Response<User> response) {
+                if(!response.isSuccessful()){
+                    TextView wrong = findViewById(R.id.wrong);
+                    wrong.setText("Wrong email or password");
+                    return;
+                }
+                User userResponse = response.body();
+                System.out.println(userResponse.getUserid());
+                SharedPreferences sharedPref = getSharedPreferences("eventKeeper", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPref.edit();
 
-                return params;
+                editor.putString("userid", userResponse.getUserid());
+                editor.commit();
+
+                valid();
+
             }
-        };
-        queue.add(postRequest);
 
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+
+                System.out.println("This is in failure");
+
+            }
+        });
 
     }
 

@@ -63,8 +63,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+
             mTextViewGroup = itemView.findViewById(R.id.GroupName);
             mTextViewLocaiton = itemView.findViewById(R.id.Location);
+
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

@@ -3,6 +3,8 @@ package com.example.eventkeeper;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -20,6 +22,9 @@ public interface JsonPlaceHolderApi {
     @POST("signin")
     Call<User> loginUser(@Body User user);
 
-    @GET("group/{userid}")
-    Call<Group> showGroups(@Body Group group, @Path("userid") String userid);
+    @GET("groups/{userid}")
+    Call<List<Group>> showGroups(@Path("userid") String userid);
+
+    @GET("crowd")
+    Call<List<Group>> getAllGroups();
 }

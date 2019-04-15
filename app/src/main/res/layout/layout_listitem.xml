@@ -16,9 +16,9 @@
             android:id="@+id/GroupName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:ems="15"
-            android:inputType="textMultiLine"
+            android:singleLine="false"
             android:text="Sometext"
+
             android:textSize="24sp" />
 
         <TextView
@@ -27,10 +27,16 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/GroupName"
             android:layout_marginTop="10dp"
-            android:ems="15"
-            android:inputType="textMultiLine"
+            android:singleLine="false"
             android:text="TextView"
             android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/ClickHere"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_height="wrap_content"
+            android:text="Tap here to View Events" />
 
     </LinearLayout>
 

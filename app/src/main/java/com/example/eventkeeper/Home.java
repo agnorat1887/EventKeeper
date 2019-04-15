@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -30,8 +31,10 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import retrofit2.Call;
+import retrofit2.Callback;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -86,39 +89,33 @@ public class Home extends Fragment implements RecyclerViewAdapter.OnItemClickLis
 
                 JsonPlaceHolderApi jsonPlaceHolderApi = retrofit.create(JsonPlaceHolderApi.class);
 
-                Call<Group> call = jsonPlaceHolderApi.showGroups(sharedPref.getString("userid", "default"));
+                Call<List<Group>> call = jsonPlaceHolderApi.showGroups(sharedPref.getString("userid", "default"));
 
+                call.enqueue(new Callback<List<Group>>() {
                     @Override
-                    public void onResponse(JSONArray response) {
-                        try {
-                            for(int i =0; i<response.length(); i++) {
-                                JSONObject hit = response.getJSONObject(i);
-
-                                String groupName = hit.getString("name");
-                                String groupLocation = hit.getString("description");
-
-                                mArrayList.add(new GroupItem(groupName, groupLocation));
-                            }
-
-                            mRecyclerViewAdapter = new RecyclerViewAdapter(getContext(), mArrayList);
-                            mRecyclerView.setAdapter(mRecyclerViewAdapter);
-                            mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-                            mRecyclerViewAdapter.setOnItemClickListener(Home.this);
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                    public void onResponse(Call<List<Group>> call, retrofit2.Response<List<Group>> response) {
+                        if (!response.isSuccessful()) {
+                            System.out.println(response.code());
+                            return;
                         }
-                    }
-                },
-                new Response.ErrorListener()
-                {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.d("Error.response", error.toString());
-                    }
-                }
 
-                );
+                        List<Group> groups = response.body();
+
+                        for(Group group : groups) {
+                            System.out.println("group name: " + group.getName());
+                            mArrayList.add(new GroupItem(group.getName(), group.getDescription()));
+                        }
+                        mRecyclerViewAdapter = new RecyclerViewAdapter(getContext(), mArrayList);
+                        mRecyclerView.setAdapter(mRecyclerViewAdapter);
+                        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+                        mRecyclerViewAdapter.setOnItemClickListener(Home.this);
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<Group>> call, Throwable t) {
+                        System.out.println("On failure t message: " + t.getMessage());
+                    }
+                });
 
 
     }
@@ -128,6 +125,6 @@ public class Home extends Fragment implements RecyclerViewAdapter.OnItemClickLis
     public void onItemClick(int position) {
         GroupItem clickedItem = mArrayList.get(position);
         System.out.println("You clicked something");
-        getFragmentManager().beginTransaction().replace(R.id.fragment_container, new Events()).commit();
+        getFragmentManager().beginTransaction().replace(R.id.fragment_container, new Events()).addToBackStack("home").commit();
     }
 }

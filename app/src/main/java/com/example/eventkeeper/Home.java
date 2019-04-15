@@ -94,7 +94,7 @@ public class Home extends Fragment implements RecyclerViewAdapter.OnItemClickLis
                             mRecyclerViewAdapter = new RecyclerViewAdapter(getContext(), mArrayList);
                             mRecyclerView.setAdapter(mRecyclerViewAdapter);
                             mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-                            //mRecyclerViewAdapter.setOnItemClickListener(Home.this, mArrayList);
+                            mRecyclerViewAdapter.setOnItemClickListener(Home.this);
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -119,6 +119,7 @@ public class Home extends Fragment implements RecyclerViewAdapter.OnItemClickLis
     @Override
     public void onItemClick(int position) {
         GroupItem clickedItem = mArrayList.get(position);
-
+        System.out.println("You clicked something");
+        getFragmentManager().beginTransaction().replace(R.id.fragment_container, new Events()).commit();
     }
 }

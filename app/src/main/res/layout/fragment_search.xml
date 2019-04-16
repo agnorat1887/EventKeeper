@@ -6,40 +6,33 @@
     android:layout_height="match_parent"
     tools:context="com.example.eventkeeper.Search">
 
-    <EditText
-        android:id="@+id/etSearch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="71dp"
-        android:layout_marginTop="53dp"
-        android:layout_marginEnd="127dp"
-        android:layout_marginBottom="633dp"
-        android:ems="10"
-        android:hint="Search By Zipcode"
-        android:inputType="textPersonName" />
-
     <ImageButton
         android:id="@+id/imageButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="55dp"
-        android:layout_marginEnd="57dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="55dp"
         android:src="@drawable/ic_search_black_24dp" />
 
-    <TextView
-        android:id="@+id/tvresult"
-        android:layout_width="342dp"
-        android:layout_height="552dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="32dp"
+    <EditText
+        android:id="@+id/etSearch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="31dp"
         android:layout_marginEnd="37dp"
-        android:layout_marginBottom="44dp" />
+        android:layout_toStartOf="@+id/imageButton"
+        android:ems="10"
+        android:hint="Search by Zipcode"
+        android:inputType="number"
+        android:visibility="visible" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/searchRecycler"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/etSearch"
+        android:layout_marginTop="13dp" />
 </RelativeLayout>

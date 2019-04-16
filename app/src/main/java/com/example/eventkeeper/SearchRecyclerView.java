@@ -3,17 +3,14 @@ package com.example.eventkeeper;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
+public class SearchRecyclerView extends RecyclerView.Adapter<SearchRecyclerView.ViewHolder> {
 
     private Context mContext;
     private ArrayList<GroupItem> mGroupList;
@@ -27,7 +24,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         mListener = listener;
     }
 
-    public RecyclerViewAdapter(Context context, ArrayList<GroupItem> GroupList) {
+    public SearchRecyclerView(Context context, ArrayList<GroupItem> GroupList) {
         mContext = context;
         mGroupList = GroupList;
     }

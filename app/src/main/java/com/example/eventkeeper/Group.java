@@ -1,8 +1,11 @@
 package com.example.eventkeeper;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Group {
     private String name, description;
-    private Address address;
+    @SerializedName
+   ("location_address") Address address;
 
     public Group(String name, String description, Address address) {
         this.name = name;

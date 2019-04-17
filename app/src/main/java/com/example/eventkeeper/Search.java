@@ -39,6 +39,7 @@ public class Search extends Fragment implements RecyclerViewAdapter.OnItemClickL
     private RecyclerView mRecyclerView;
     private RecyclerViewAdapter mRecyclerViewAdapter;
     private ArrayList<GroupItem> mArrayList;
+    private List<Group> groups;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -97,9 +98,8 @@ public class Search extends Fragment implements RecyclerViewAdapter.OnItemClickL
                     return;
 
                 }
-                List<Group> groups = response.body();
+                groups = response.body();
                 for(Group group: groups){
-
                     if(group.getAddress().getZipCode() == zipCodeEntered) {
                         mArrayList.add(new GroupItem(group.getName(), group.getDescription()));
                     }
@@ -126,7 +126,11 @@ public class Search extends Fragment implements RecyclerViewAdapter.OnItemClickL
     public void onItemClick(int position) {
         GroupItem clickedItem = mArrayList.get(position);
         System.out.println("You clicked something");
-        getFragmentManager().beginTransaction().replace(R.id.fragment_container, new Events()).addToBackStack("home").commit();
+        Bundle bundle = new Bundle();
+        bundle.putString("id", groups.get(position).get_id());
+        Fragment fragment = new JoinGroup();
+        fragment.setArguments(bundle);
+        getFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).addToBackStack("home").commit();
     }
 
 }

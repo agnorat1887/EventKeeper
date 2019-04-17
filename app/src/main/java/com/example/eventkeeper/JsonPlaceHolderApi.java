@@ -9,6 +9,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 public interface JsonPlaceHolderApi {
@@ -27,4 +28,10 @@ public interface JsonPlaceHolderApi {
 
     @GET("crowd")
     Call<List<Group>> getAllGroups();
+
+    @GET("group/{groupid}")
+    Call<Group> getOneGroup(@Path("groupid") String groupid);
+
+    @PUT("addtoGroup/{groupid}")
+    Call<Group> joinGroup(@Path("groupid") String groupid, @Body userID user);
 }

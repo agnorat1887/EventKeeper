@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.eventkeeper.CreateGroup">
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Create a Group"
+        android:textAlignment="center"
+        android:textSize="28sp" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingTop="10dp">
+
+            <EditText
+                android:id="@+id/enterGroupName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="Enter a group name"
+                android:inputType="textPersonName" />
+        </LinearLayout>
+    </ScrollView>
+
+    <EditText
+        android:id="@+id/enterGroupStreet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:ems="10"
+        android:hint="Street"
+        android:inputType="textPersonName" />
+
+    <EditText
+        android:id="@+id/enterGroupCity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="City"
+        android:inputType="textPersonName" />
+
+    <EditText
+        android:id="@+id/enterGroupState"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="State"
+        android:inputType="textPersonName" />
+
+    <EditText
+        android:id="@+id/enterGroupZip"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Zipcode"
+        android:inputType="number" />
+
+    <EditText
+        android:id="@+id/enterGroupDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Group description"
+        android:inputType="textPersonName"
+        android:paddingTop="20dp"
+        android:singleLine="false" />
+
+    <Button
+        android:id="@+id/CreateGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Create" />
+
+    <TextView
+        android:id="@+id/createSuccess"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp" />
+
+</LinearLayout>

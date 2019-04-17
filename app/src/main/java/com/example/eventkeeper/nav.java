@@ -45,8 +45,8 @@ public class nav extends AppCompatActivity implements BottomNavigationView.OnNav
             case R.id.navigation_search:
                 fragment = new Search();
                 break;
-            case R.id.navigation_Calender:
-                fragment = new Calender();
+            case R.id.navigation_add:
+                fragment = new CreateGroup();
                 break;
 
         }

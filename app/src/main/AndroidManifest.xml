@@ -13,7 +13,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".nav"
-            android:label="@string/title_activity_nav"></activity>
+            android:label="Event Keeper"></activity>
         <activity android:name=".CreateAccount" />
         <activity
             android:name=".MainActivity"
@@ -24,6 +24,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
     </application>
 
 </manifest>

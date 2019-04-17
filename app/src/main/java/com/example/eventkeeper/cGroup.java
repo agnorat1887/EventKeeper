@@ -2,12 +2,12 @@ package com.example.eventkeeper;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Group {
+public class cGroup {
     private String name, description;
     @SerializedName("location_address") Address address;
-    String _id;
+    @SerializedName("creator_id")String _id;
 
-    public Group(String name, String description, String _id, Address address) {
+    public cGroup(String name, String description, String _id, Address address) {
         this.name = name;
         this.description = description;
         this._id = _id;

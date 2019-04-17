@@ -12,8 +12,8 @@
         android:title="Search" />
 
     <item
-        android:id="@+id/navigation_Calender"
-        android:icon="@drawable/ic_today_black_24dp"
-        android:title="Calender" />
+        android:id="@+id/navigation_add"
+        android:icon="@drawable/ic_add_black_24dp"
+        android:title="Create Group" />
 
 </menu>

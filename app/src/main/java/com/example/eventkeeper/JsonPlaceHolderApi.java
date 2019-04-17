@@ -34,4 +34,7 @@ public interface JsonPlaceHolderApi {
 
     @PUT("addtoGroup/{groupid}")
     Call<Group> joinGroup(@Path("groupid") String groupid, @Body userID user);
+
+    @POST("groups")
+    Call<cGroup> createGroup(@Body cGroup group);
 }

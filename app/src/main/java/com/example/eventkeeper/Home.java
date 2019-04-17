@@ -103,7 +103,7 @@ public class Home extends Fragment implements RecyclerViewAdapter.OnItemClickLis
 
                         for(Group group : groups) {
                             System.out.println("group name: " + group.getName());
-                            mArrayList.add(new GroupItem(group.getName(), group.getDescription()));
+                            mArrayList.add(new GroupItem(group.getName(), group.getDescription(), group.get_id()));
                         }
                         mRecyclerViewAdapter = new RecyclerViewAdapter(getContext(), mArrayList);
                         mRecyclerView.setAdapter(mRecyclerViewAdapter);

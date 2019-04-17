@@ -67,8 +67,12 @@ public class Search extends Fragment implements RecyclerViewAdapter.OnItemClickL
             public void onClick(View v) {
                 if(zipCode.getText() == null)
                     return;
-                zipCodeEntered = Integer.parseInt(zipCode.getText().toString());
-                getAllGroups();
+                if(zipCode.getText().toString().matches(""))
+                    getAllGroups(1);
+                else {
+                    zipCodeEntered = Integer.parseInt(zipCode.getText().toString());
+                    getAllGroups(0);
+                }
 
             }
         });
@@ -79,7 +83,7 @@ public class Search extends Fragment implements RecyclerViewAdapter.OnItemClickL
 
         return v;
     }
-    public void getAllGroups (){
+    public void getAllGroups (final int type){
         System.out.println("Getting all groups");
 
         String url = "https://eventkeeperofficial.herokuapp.com/api/";
@@ -99,16 +103,26 @@ public class Search extends Fragment implements RecyclerViewAdapter.OnItemClickL
 
                 }
                 groups = response.body();
-                for(Group group: groups){
-                    if(group.getAddress().getZipCode() == zipCodeEntered) {
-                        mArrayList.add(new GroupItem(group.getName(), group.getDescription()));
+                if(type == 0) {
+                    mArrayList.clear();
+                    for (Group group : groups) {
+                        if (group.getAddress().getZipCode() == zipCodeEntered) {
+                            mArrayList.add(new GroupItem(group.getName(), group.getDescription(), group.get_id()));
+                        }
                     }
+                }
+                else if (type == 1) {
+                    mArrayList.clear();
+                    for (Group group : groups) {
+                        mArrayList.add(new GroupItem(group.getName(), group.getDescription(), group.get_id()));
+                    }
+                }
 
                     mRecyclerViewAdapter = new RecyclerViewAdapter(getContext(), mArrayList);
                     mRecyclerView.setAdapter(mRecyclerViewAdapter);
                     mRecyclerView.setItemAnimator(new DefaultItemAnimator());
                     mRecyclerViewAdapter.setOnItemClickListener(Search.this);
-                }
+
 
             }
 
@@ -127,7 +141,7 @@ public class Search extends Fragment implements RecyclerViewAdapter.OnItemClickL
         GroupItem clickedItem = mArrayList.get(position);
         System.out.println("You clicked something");
         Bundle bundle = new Bundle();
-        bundle.putString("id", groups.get(position).get_id());
+        bundle.putString("id", mArrayList.get(position).getId());
         Fragment fragment = new JoinGroup();
         fragment.setArguments(bundle);
         getFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).addToBackStack("home").commit();

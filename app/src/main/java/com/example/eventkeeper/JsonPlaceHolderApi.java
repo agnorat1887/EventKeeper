@@ -37,4 +37,10 @@ public interface JsonPlaceHolderApi {
 
     @POST("groups")
     Call<cGroup> createGroup(@Body cGroup group);
+
+    @GET("events/{groupid}")
+    Call<List<Group>> showEvents(@Path("groupid") String groupid);
+
+    @GET("event/{eventid}")
+    Call<Event> viewEvent(@Path("eventid") String eventid);
 }

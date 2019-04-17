@@ -47,7 +47,6 @@ public class Home extends Fragment implements RecyclerViewAdapter.OnItemClickLis
     private RecyclerView mRecyclerView;
     private RecyclerViewAdapter mRecyclerViewAdapter;
     private ArrayList<GroupItem> mArrayList;
-    private RequestQueue queue;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -125,6 +124,10 @@ public class Home extends Fragment implements RecyclerViewAdapter.OnItemClickLis
     public void onItemClick(int position) {
         GroupItem clickedItem = mArrayList.get(position);
         System.out.println("You clicked something");
-        getFragmentManager().beginTransaction().replace(R.id.fragment_container, new Events()).addToBackStack("home").commit();
+        Bundle bundle = new Bundle();
+        bundle.putString("id", mArrayList.get(position).getId());
+        Fragment fragment = new Events();
+        fragment.setArguments(bundle);
+        getFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).addToBackStack("home").commit();
     }
 }

@@ -11,15 +11,15 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/GroupName"
-            android:paddingTop="20dp"
+            android:id="@+id/eventName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Group Name"
+            android:text="Event Name"
+            android:paddingTop="20dp"
             android:textSize="32sp" />
 
         <TextView
-            android:id="@+id/GroupDescription"
+            android:id="@+id/eventDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Group Description"
@@ -29,45 +29,47 @@
             android:id="@+id/textView7"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Group Location"
+            android:text="Event Location"
             android:paddingTop="20dp"
             android:textSize="32sp" />
 
         <TextView
-            android:id="@+id/groupStreet"
+            android:id="@+id/eventStreet"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Street"
             android:textSize="18sp" />
 
         <TextView
-            android:id="@+id/groupCity"
+            android:id="@+id/eventCity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="City" />
 
         <TextView
-            android:id="@+id/groupState"
+            android:id="@+id/eventState"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="State" />
 
         <TextView
-            android:id="@+id/groupZip"
+            android:id="@+id/eventZip"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Zip" />
-
-        <Button
-            android:id="@+id/JoinGroupButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Join Group" />
-
         <TextView
-            android:id="@+id/JoinDisplay"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="24sp" />
+            android:paddingTop="20dp"
+            android:textSize="32sp"
+            android:text="Event Date"/>
+        <TextView
+            android:id="@+id/eventDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="18dp"
+            android:text="mm-dd-yyyy"
+            />
+
     </LinearLayout>
 </FrameLayout>
